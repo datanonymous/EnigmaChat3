@@ -1,10 +1,14 @@
 package ko.alex.enigmachat3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -57,6 +61,8 @@ public class Chat_Room extends AppCompatActivity {
     private EditText input;
     private EditText seedInput;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){ // removed @Nullable Bundle savedInstanceState
         super.onCreate(savedInstanceState);
@@ -81,6 +87,10 @@ public class Chat_Room extends AppCompatActivity {
 
         // Let user know that if seed number is 0, normal chat function can occur without encryption
         Toast.makeText(getApplicationContext(),"Hey " + user_name + "!  Did you know that if you set Seed Num to 0, encryption will not occur?",Toast.LENGTH_LONG).show();
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // back button enabled
 
 //        btn_send_msg.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -213,11 +223,34 @@ public class Chat_Room extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id==R.id.item1_id){
+            Toast.makeText(this,"Item 1 selected",Toast.LENGTH_SHORT).show();
+        } else if(id==R.id.item2_id){
+            Toast.makeText(this,"Item 2 selected",Toast.LENGTH_SHORT).show();
+        } else if(id==R.id.item3_id){
+            Toast.makeText(this,"Item 3 selected",Toast.LENGTH_SHORT).show();
+        } else if(id==android.R.id.home){
+            Intent intentChatRoom = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intentChatRoom);
+        } else if(id==R.id.cat){
+            Toast.makeText(this,"Cat selected",Toast.LENGTH_SHORT).show(); // https://materialdesignicons.com/
+        } else if(id==R.id.qrcodescan){
+            Toast.makeText(this,"QR code scan selected",Toast.LENGTH_SHORT).show(); // https://materialdesignicons.com/
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 
-
-//    private String chat_msg, chat_user_name;
+    //    private String chat_msg, chat_user_name;
 //
 //    private void append_chat_conversation(DataSnapshot dataSnapshot) {
 //        Iterator i = dataSnapshot.getChildren().iterator();
